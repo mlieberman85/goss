@@ -78,7 +78,7 @@ func New(c *cli.Context) *System {
 // detectPackage adds the correct package creation function to a System struct
 func (sys *System) detectPackage(c *cli.Context) {
 	p := c.GlobalString("package")
-	if p != "deb" && p != "apk" && p != "pacman" && p != "rpm" {
+	if p != "deb" && p != "apk" && p != "pacman" && p != "rpm" && p != "brew" {
 		p = DetectPackageManager()
 	}
 	switch p {
@@ -88,6 +88,8 @@ func (sys *System) detectPackage(c *cli.Context) {
 		sys.NewPackage = NewAlpinePackage
 	case "pacman":
 		sys.NewPackage = NewPacmanPackage
+	case "brew":
+		sys.NewPackage = NewBrewPackage
 	default:
 		sys.NewPackage = NewRpmPackage
 	}
